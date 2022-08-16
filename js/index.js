@@ -8,7 +8,7 @@ const image = new Image();
 
 image.src = "img/truck-level-one.png";
 let gravity = 1;
-
+let jumpLimit = 0;
 function rect(positionX, positionY, width, height) {
   ctx.fillStyle = "red";
   ctx.fillRect(positionX, positionY, width, height);
@@ -115,7 +115,8 @@ class Player {
       }
       if (this.position.y + this.height > y && collision == true) {
         this.velocity.y = 0;
-        gravity = 1;
+        jumpLimit = 0;
+
         this.position.y = y - this.height;
       }
 
@@ -141,9 +142,10 @@ class Player {
     }
     //------------------------------------------------------
 
-    if (keys.up.pressed) {
-      this.velocity.y -= 2;
+    if (keys.up.pressed && jumpLimit < 6) {
+      this.velocity.y -= 3;
       gravity = -1;
+      jumpLimit++;
     } else {
       gravity = 1;
     }
