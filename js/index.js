@@ -45,17 +45,19 @@ class Player {
     this.position.y += this.velocity.y;
 
     this.position.x += this.velocity.x;
-    console.log(this.velocity.y);
+    //console.log(this.velocity.y);
   }
 }
 const levelOne = new LevelOne({ position: { x: 0, y: 0 } });
+
 const player = new Player({ position: { x: 300, y: 0 } });
 
 let mapMove = {
   x: 0,
   y: 0,
 };
-
+//const projectile = new Projectile(200, 200, 15, "red", null);
+const projectiles = [];
 function animate() {
   requestAnimationFrame(animate);
 
@@ -65,6 +67,11 @@ function animate() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   player.draw();
   ctx.drawImage(image, mapMove.x, 0);
+
+  projectiles.forEach((projectile) => {
+    projectile.update();
+  });
+  //enemy.update();
 
   //mapLines();
 }
@@ -86,7 +93,7 @@ function mapLines() {
 addEventListener("keydown", ({ keyCode }) => {
   switch (keyCode) {
     case 65:
-      console.log("left");
+      //console.log("left");
       keys.left.pressed = true;
 
       break;
@@ -95,7 +102,7 @@ addEventListener("keydown", ({ keyCode }) => {
       break;
 
     case 68:
-      console.log("right");
+      //console.log("right");
       keys.right.pressed = true;
 
       break;
