@@ -21,11 +21,11 @@ class Projectile {
 }
 
 let timer = null;
-
+const projectiles = [];
 addEventListener("mousedown", (event) => {
   timer = setInterval(function () {
     // the function can do whatever you need it to
-    console.log(event);
+    //console.log(event);
 
     const angle2 = Math.atan2(
       event.clientY - player.position.y,

@@ -57,7 +57,6 @@ let mapMove = {
   y: 0,
 };
 //const projectile = new Projectile(200, 200, 15, "red", null);
-const projectiles = [];
 function animate() {
   requestAnimationFrame(animate);
 
@@ -74,6 +73,11 @@ function animate() {
 
   enemies.forEach((enemy, index) => {
     enemy.update();
+    if (keys.right.pressed && player.position.x >= 500) {
+      enemy.x -= 5;
+    } else if (keys.left.pressed && player.position.x <= 200) {
+      enemy.x += 5;
+    }
 
     projectiles.forEach((projectile, projectileIndex) => {
       const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y);

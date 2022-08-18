@@ -18,11 +18,12 @@ class Enemy {
     this.y = this.y + this.velocity.y;
   }
 }
+
 let enemies = [];
 function spawnEnemies() {
   setInterval(() => {
     const radius = Math.random() * (30 - 4) + 4;
-    console.log("go");
+
     let x;
     let y;
     if (Math.random() < 0.5) {
@@ -43,6 +44,7 @@ function spawnEnemies() {
     };
     velocity.x;
     velocity.y;
+
     enemies.push(new Enemy(x, y, radius, color, velocity));
   }, 500);
 }
