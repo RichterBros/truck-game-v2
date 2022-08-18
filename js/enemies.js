@@ -14,44 +14,35 @@ class Enemy {
   }
   update() {
     this.draw();
-    // this.x = this.x + this.velocity.x;
-    // this.y = this.y + this.velocity.y;
-    //let angle = player.position.y - this.y / player.position.x - this.x;
-    let angle = Math.atan2(this.x, (player.position.y * 180) / Math.PI);
-    const velocity = {
-      x: Math.cos(angle),
-      y: Math.sin(angle),
-    };
-    // this.x += velocity.x;
-    // this.y += velocity.y;
-    // }
-    //console.log(velocity.x);
+    this.x = this.x + this.velocity.x;
+    this.y = this.y + this.velocity.y;
   }
 }
-
+let enemies = [];
 function spawnEnemies() {
   setInterval(() => {
     const radius = Math.random() * (30 - 4) + 4;
-
+    console.log("go");
     let x;
     let y;
     if (Math.random() < 0.5) {
       x = Math.random() < 0.5 ? 0 - radius : canvas.width + radius;
+
       y = Math.random() * canvas.height;
+      y = 0;
     } else {
       x = Math.random() * canvas.width;
-      y = Math.random() < 0.5 ? 0 - radius : canvas.height + radius;
+      //y = Math.random() < 0.5 ? 0 - radius : canvas.height + radius;
     }
     const color = "green";
 
-    const angle = Math.atan2(canvas.height / 2 - y, canvas.width / 2 - x);
+    const angle = Math.atan2(player.position.y - y, player.position.x - x);
     const velocity = {
       x: Math.cos(angle),
       y: Math.sin(angle),
     };
-
+    velocity.x;
+    velocity.y;
     enemies.push(new Enemy(x, y, radius, color, velocity));
-  }, 1000);
+  }, 500);
 }
-const enemies = [];
-spawnEnemies();

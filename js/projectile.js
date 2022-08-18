@@ -25,7 +25,7 @@ let timer = null;
 addEventListener("mousedown", (event) => {
   timer = setInterval(function () {
     // the function can do whatever you need it to
-    console.log("Mouse is down!");
+    console.log(event);
 
     const angle2 = Math.atan2(
       event.clientY - player.position.y,
@@ -36,12 +36,16 @@ addEventListener("mousedown", (event) => {
       y: Math.sin(angle2) * 5,
     };
     projectiles.push(
-      new Projectile(player.position.x, player.position.y, 5, "red", velocity)
+      new Projectile(
+        player.position.x,
+        player.position.y,
+        5,
+        "rgba(255, 0, 0, 1)",
+        velocity
+      )
     );
   }, 50);
-
-  function mouseDone(event) {
-    clearInterval(timer);
-  }
 });
-addEventListener("mouseup", mousedone);
+addEventListener("mouseup", (event) => {
+  clearInterval(timer);
+});
