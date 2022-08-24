@@ -25,27 +25,39 @@ const keys = {
     pressed: false,
   },
 };
-
+const truckImage = new Image();
+truckImage.src = "img/truck.png";
 class Player {
   constructor({ position = { x: 0, y: 0 } }) {
     (this.position = position),
-      (this.width = 5),
-      (this.height = 20),
+      (this.width = 10),
+      (this.height = 30),
+      (this.degrees = 0),
       (this.velocity = {
         y: 0,
         x: 0,
       });
   }
   draw() {
-    ctx.fillStyle = "blue";
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    ctx.save();
+    ctx.translate(this.position.x, this.position.y);
+    ctx.rotate((this.degrees * Math.PI) / 360);
+
+    //console.log(this.degrees);
+    ctx.fillStyle = "red";
+    ctx.fillRect(0, 0, 119, 87);
+    ctx.drawImage(truckImage, 0, -25, 100, 50);
+
+    // ctx.fillStyle = "blue";
+    // ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+
+    ctx.restore();
   }
   update() {
     this.velocity.y += gravity;
     this.position.y += this.velocity.y;
 
     this.position.x += this.velocity.x;
-    //console.log(this.velocity.y);
   }
 }
 const levelOne = new LevelOne({ position: { x: 0, y: 0 } });
@@ -64,11 +76,24 @@ function animate() {
   levelOne.update();
   ctx.fillStyle = "white";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
+
   player.draw();
   ctx.drawImage(image, mapMove.x, 0);
 
-  projectiles.forEach((projectile) => {
+  projectiles.forEach((projectile, index) => {
     projectile.update();
+
+    //remove from screen
+    if (
+      projectile.x + projectile.radius < 0 ||
+      projectile.x - projectile.radius > canvas.width ||
+      projectile.y + projectile.radius < 0 ||
+      projectile.y - projectile.radius > canvas.height
+    ) {
+      setTimeout(() => {
+        projectiles.splice(index, 1);
+      }, 0);
+    }
   });
 
   enemies.forEach((enemy, index) => {
@@ -78,12 +103,22 @@ function animate() {
     } else if (keys.left.pressed && player.position.x <= 200) {
       enemy.x += 5;
     }
-
+    const dist = Math.hypot(player.x - enemy.x, player.y - enemy.y);
+    if (
+      dist - enemy.radius - Player.x + player.width &&
+      dist - enemy.radius - Player.y + player.height < 1
+    ) {
+      console.log("hit");
+    }
     projectiles.forEach((projectile, projectileIndex) => {
       const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y);
+
+      // when projectiles touch enemy
       if (dist - enemy.radius - projectile.radius < 1) {
-        enemies.splice(index, 1);
-        projectiles.splice(projectileIndex, 1);
+        setTimeout(() => {
+          enemies.splice(index, 1);
+          projectiles.splice(projectileIndex, 1);
+        }, 0);
       }
     });
   });

@@ -23,6 +23,7 @@ class Projectile {
 let timer = null;
 const projectiles = [];
 addEventListener("mousedown", (event) => {
+  //console.log(projectiles);
   timer = setInterval(function () {
     // the function can do whatever you need it to
     //console.log(event);
