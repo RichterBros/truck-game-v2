@@ -26,7 +26,9 @@ const keys = {
   },
 };
 const truckImage = new Image();
-truckImage.src = "img/truck.png";
+truckImage.src = "img/truckSpritesheetIdle.png";
+const truckImageJump = new Image();
+truckImageJump.src = "img/truck-jump.png";
 class Player {
   constructor({ position = { x: 0, y: 0 } }) {
     (this.position = position),
@@ -36,24 +38,51 @@ class Player {
       (this.velocity = {
         y: 0,
         x: 0,
+      }),
+      (this.frames = 0),
+      (this.sprites = {
+        idle: truckImage,
+        jump: truckImageJump,
+        cropWidth: 119,
+        cropHeight: 56,
       });
+
+    this.currentSprite = this.sprites.idle;
+    this.currentCropWidth = this.sprites.cropWidth;
+    this.currentCropHeight = this.sprites.cropHeight;
   }
   draw() {
     ctx.save();
     ctx.translate(this.position.x, this.position.y);
     ctx.rotate((this.degrees * Math.PI) / 360);
 
-    //console.log(this.degrees);
     ctx.fillStyle = "red";
     ctx.fillRect(0, 0, 119, 87);
-    ctx.drawImage(truckImage, 0, -25, 100, 50);
+    //ctx.drawImage(truckImage, 0, -25, 119, 56);
+    ctx.drawImage(
+      this.currentSprite,
+      this.currentCropWidth * this.frames,
 
-    // ctx.fillStyle = "blue";
-    // ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+      0,
+      this.currentCropWidth,
+      this.currentCropHeight,
+      -25,
+      -25,
+      119,
+      56
+    );
 
     ctx.restore();
   }
   update() {
+    this.frames++;
+    if (this.frames >= 8 && this.currentSprite == this.sprites.idle) {
+      this.frames = 0;
+    }
+    if (this.frames >= 60 && this.currentSprite == this.sprites.jump) {
+      this.frames = 0;
+    }
+
     this.velocity.y += gravity;
     this.position.y += this.velocity.y;
 

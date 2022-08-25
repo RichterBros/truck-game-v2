@@ -43,9 +43,9 @@ class LevelOne {
       let y2 = mapPoints[i + 1].y;
 
       if (keys.right.pressed && player.position.x >= 500) {
-        mapMove.x -= 0.1;
+        mapMove.x -= 0.2;
       } else if (keys.left.pressed && player.position.x <= 200) {
-        mapMove.x += 0.1;
+        mapMove.x += 0.2;
       }
       let angle = (y2 - y1) / (x2 - x1);
 
@@ -88,6 +88,8 @@ class LevelOne {
         jumpLimit = 0;
 
         player.position.y = y - player.height;
+        player.currentSprite = player.sprites.idle;
+        player.currentCropHeight = 56;
       }
 
       if (collision) {
@@ -114,7 +116,7 @@ class LevelOne {
       }
     }
     if (keys.right.pressed && player.position.x < 500) {
-      player.velocity.x += 0.1;
+      player.velocity.x += 0.2;
     } else if (keys.right.pressed && player.position.x >= 500) {
       player.velocity.x = 0;
     } else if (!keys.left.pressed && !keys.right.pressed) {
@@ -122,7 +124,7 @@ class LevelOne {
     }
 
     if (keys.left.pressed && player.position.x > 200) {
-      player.velocity.x -= 0.1;
+      player.velocity.x -= 0.2;
     } else if (keys.left.pressed && player.position.x <= 200) {
       player.velocity.x = 0;
     }
@@ -132,6 +134,8 @@ class LevelOne {
       player.velocity.y -= 3;
       gravity = -1;
       jumpLimit++;
+      player.currentSprite = player.sprites.jump;
+      player.currentCropHeight = 56;
     } else {
       gravity = 1;
     }
