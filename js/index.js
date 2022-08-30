@@ -26,9 +26,9 @@ const keys = {
   },
 };
 const truckImage = new Image();
-truckImage.src = "img/truckSpritesheetIdle.png";
+truckImage.src = "img/truckSpritesheetIdle_V3.png";
 const truckImageJump = new Image();
-truckImageJump.src = "img/truck-jump.png";
+truckImageJump.src = "img/truck-jumpV2.png";
 class Player {
   constructor({ position = { x: 0, y: 0 } }) {
     (this.position = position),
@@ -44,7 +44,7 @@ class Player {
         idle: truckImage,
         jump: truckImageJump,
         cropWidth: 119,
-        cropHeight: 56,
+        cropHeight: 87,
       });
 
     this.currentSprite = this.sprites.idle;
@@ -56,8 +56,8 @@ class Player {
     ctx.translate(this.position.x, this.position.y);
     ctx.rotate((this.degrees * Math.PI) / 360);
 
-    ctx.fillStyle = "red";
-    ctx.fillRect(0, 0, 119, 87);
+    // ctx.fillStyle = "red";
+    // ctx.fillRect(0, 0, 119, 87);
     //ctx.drawImage(truckImage, 0, -25, 119, 56);
     ctx.drawImage(
       this.currentSprite,
@@ -67,26 +67,37 @@ class Player {
       this.currentCropWidth,
       this.currentCropHeight,
       -25,
-      -25,
+      -50,
       119,
-      56
+      this.currentCropHeight
     );
 
     ctx.restore();
   }
   update() {
     this.frames++;
+    console.log(this.frames);
     if (this.frames >= 8 && this.currentSprite == this.sprites.idle) {
       this.frames = 0;
-    }
-    if (this.frames >= 60 && this.currentSprite == this.sprites.jump) {
+    } else if (this.frames >= 59 && this.currentSprite == this.sprites.jump) {
       this.frames = 0;
     }
+    this.draw();
 
     this.velocity.y += gravity;
     this.position.y += this.velocity.y;
 
     this.position.x += this.velocity.x;
+
+    // if (keys.up.pressed && jumpLimit < 6) {
+    //   player.currentCropHeight = 87;
+    //   player.currentSprite = player.sprites.jump;
+    //   player.velocity.y -= 3;
+    //   gravity = -1;
+    //   jumpLimit++;
+    // } else {
+    //   gravity = 1;
+    // }
   }
 }
 const levelOne = new LevelOne({ position: { x: 0, y: 0 } });
@@ -101,13 +112,24 @@ let mapMove = {
 function animate() {
   requestAnimationFrame(animate);
 
-  player.update();
   levelOne.update();
   ctx.fillStyle = "white";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  player.draw();
+  // player.draw();
+  player.update();
   ctx.drawImage(image, mapMove.x, 0);
+
+  if (keys.up.pressed && jumpLimit < 6) {
+    player.currentSprite = player.sprites.jump;
+    player.velocity.y -= 3;
+    gravity = -1;
+    jumpLimit++;
+  } else {
+    gravity = 1;
+  }
+
+  // player.currentCropHeight = 56;
 
   projectiles.forEach((projectile, index) => {
     projectile.update();
@@ -210,7 +232,6 @@ addEventListener("keyup", ({ keyCode }) => {
 
     case 87:
       keys.up.pressed = false;
-      jump = false;
 
       break;
   }

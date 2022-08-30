@@ -89,7 +89,6 @@ class LevelOne {
 
         player.position.y = y - player.height;
         player.currentSprite = player.sprites.idle;
-        player.currentCropHeight = 56;
       }
 
       if (collision) {
@@ -100,15 +99,8 @@ class LevelOne {
         } else if (Math.round(player.degrees) > Math.round(m * 100)) {
           Math.round((player.degrees -= 5));
         }
-        console.log(Math.round(m * 100));
-        console.log(Math.round(player.degrees));
       }
-      // if (collision == true && player.degrees != angle) {
-      //   player.degrees += 1;d
-      // } else if (collision == true && player.degrees === angle) {
-      //   player.degrees = 0;
-      // }
-      //console.log(player.degrees);
+
       // This shows the slope angle-----------
       for (let i = 0; i < x2 - x1; i += 15) {
         y = m * i;
@@ -131,14 +123,17 @@ class LevelOne {
     //------------------------------------------------------
 
     if (keys.up.pressed && jumpLimit < 6) {
+      player.currentCropHeight = 87;
+
       player.velocity.y -= 3;
       gravity = -1;
       jumpLimit++;
-      player.currentSprite = player.sprites.jump;
-      player.currentCropHeight = 56;
     } else {
       gravity = 1;
+      // player.currentSprite = player.sprites.idle;
+      // player.currentCropHeight = 56;
     }
+    //console.log(jumpLimit);
   }
 }
 
