@@ -1,8 +1,22 @@
 const image = new Image();
 
-image.src = "img/truck-level-one.png";
+image.src = "img/truck-level-one-v4.png";
+
+const backgroundImage = new Image();
+
+backgroundImage.src = "img/backgroundv2 copy.png";
 
 let truckAngle = [];
+
+let mapMove = {
+  x: 0,
+  y: 0,
+};
+
+let backgroundMove = {
+  x: 0,
+  y: 0,
+};
 
 for (let i = 0; i < mapPoints.length - 1; i++) {
   let x1 = mapPoints[i].x;
@@ -44,11 +58,30 @@ class LevelOne {
 
       if (keys.right.pressed && player.position.x >= 500) {
         mapMove.x -= 0.2;
+        backgroundMove.x -= 0.1;
       } else if (keys.left.pressed && player.position.x <= 200) {
         mapMove.x += 0.2;
+        backgroundMove.x += 0.1;
       }
-      let angle = (y2 - y1) / (x2 - x1);
 
+      if (keys.left.pressed && player.position.y <= 50) {
+        mapMove.y += 0.2;
+        backgroundMove.y += 0.1;
+      } else if (keys.right.pressed && player.position.y > 640) {
+        mapMove.y -= 0.2;
+        backgroundMove.y -= 0.1;
+      }
+
+      if (player.position.y <= 50) {
+        mapMove.y += 0.2;
+        backgroundMove.y += 0.1;
+      } else if (player.position.y > 640) {
+        mapMove.y -= 0.2;
+        backgroundMove.y -= 0.1;
+      }
+
+      let angle = (y2 - y1) / (x2 - x1);
+      console.log(player.position.y);
       //console.log(player.position.y);
       //player.degrees = player.position.y;
       // Slope collision detection-------------------
@@ -56,7 +89,7 @@ class LevelOne {
       let y = 0; //slope
       let m = angle; // rise/run
       let x = player.position.x + offsetX;
-      let b = y1; // slope intercept
+      let b = y1 + mapMove.y; // slope intercept
 
       let collisionZone3 = new collisionRect(
         -offsetX,

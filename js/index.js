@@ -2,7 +2,7 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
 canvas.width = 1280;
-canvas.height = 780;
+canvas.height = 786;
 
 let gravity = 1;
 let jumpLimit = 0;
@@ -76,7 +76,7 @@ class Player {
   }
   update() {
     this.frames++;
-    console.log(this.frames);
+
     if (this.frames >= 8 && this.currentSprite == this.sprites.idle) {
       this.frames = 0;
     } else if (this.frames >= 59 && this.currentSprite == this.sprites.jump) {
@@ -104,10 +104,6 @@ const levelOne = new LevelOne({ position: { x: 0, y: 0 } });
 
 const player = new Player({ position: { x: 300, y: 0 } });
 
-let mapMove = {
-  x: 0,
-  y: 0,
-};
 //const projectile = new Projectile(200, 200, 15, "red", null);
 function animate() {
   requestAnimationFrame(animate);
@@ -117,8 +113,13 @@ function animate() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // player.draw();
+  ctx.drawImage(
+    backgroundImage,
+    backgroundMove.x - 250,
+    backgroundMove.y - 500
+  );
   player.update();
-  ctx.drawImage(image, mapMove.x, 0);
+  ctx.drawImage(image, mapMove.x, mapMove.y);
 
   if (keys.up.pressed && jumpLimit < 6) {
     player.currentSprite = player.sprites.jump;
