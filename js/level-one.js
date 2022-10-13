@@ -81,7 +81,7 @@ class LevelOne {
       }
 
       let angle = (y2 - y1) / (x2 - x1);
-      console.log(player.position.y);
+      //console.log(player.position.y);
       //console.log(player.position.y);
       //player.degrees = player.position.y;
       // Slope collision detection-------------------

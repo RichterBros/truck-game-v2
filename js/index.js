@@ -45,6 +45,11 @@ class Player {
         jump: truckImageJump,
         cropWidth: 119,
         cropHeight: 87,
+      }),
+      (this.radius = 50),
+      (this.collisionSquare = {
+        x: -25,
+        y: -50,
       });
 
     this.currentSprite = this.sprites.idle;
@@ -56,9 +61,14 @@ class Player {
     ctx.translate(this.position.x, this.position.y);
     ctx.rotate((this.degrees * Math.PI) / 360);
 
-    // ctx.fillStyle = "red";
-    // ctx.fillRect(0, 0, 119, 87);
+    //Collision---
+    // ctx.beginPath();
+    // ctx.arc(35, 30, this.radius, 0, 2 * Math.PI);
+    //ctx.stroke();
+    ctx.fillStyle = "red";
+    ctx.fillRect(this.collisionSquare.x, this.collisionSquare.y, 119, 87);
     //ctx.drawImage(truckImage, 0, -25, 119, 56);
+
     ctx.drawImage(
       this.currentSprite,
       this.currentCropWidth * this.frames,
@@ -105,8 +115,10 @@ const levelOne = new LevelOne({ position: { x: 0, y: 0 } });
 const player = new Player({ position: { x: 300, y: 0 } });
 
 //const projectile = new Projectile(200, 200, 15, "red", null);
+
+let animationId;
 function animate() {
-  requestAnimationFrame(animate);
+  animationId = requestAnimationFrame(animate);
 
   levelOne.update();
   ctx.fillStyle = "white";
@@ -137,10 +149,10 @@ function animate() {
 
     //remove from screen
     if (
-      projectile.x + projectile.radius < 0 ||
-      projectile.x - projectile.radius > canvas.width ||
-      projectile.y + projectile.radius < 0 ||
-      projectile.y - projectile.radius > canvas.height
+      projectile.x < 0 ||
+      projectile.x > canvas.width ||
+      projectile.y < 0 ||
+      projectile.y > canvas.height
     ) {
       setTimeout(() => {
         projectiles.splice(index, 1);
@@ -155,18 +167,32 @@ function animate() {
     } else if (keys.left.pressed && player.position.x <= 200) {
       enemy.x += 5;
     }
-    const dist = Math.hypot(player.x - enemy.x, player.y - enemy.y);
-    if (
-      dist - enemy.radius - Player.x + player.width &&
-      dist - enemy.radius - Player.y + player.height < 1
-    ) {
-      console.log("hit");
+    const dist = Math.hypot(
+      player.position.x - enemy.x,
+      player.position.y - enemy.y
+    );
+
+    // end game
+    if (dist - enemy.radius - player.radius < -1) {
+      cancelAnimationFrame(animationId);
     }
+    //console.log(player.x);
     projectiles.forEach((projectile, projectileIndex) => {
       const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y);
 
       // when projectiles touch enemy
-      if (dist - enemy.radius - projectile.radius < 1) {
+      // if (dist - enemy.radius - projectile.radius < 1) {
+      //   setTimeout(() => {
+      //     enemies.splice(index, 1);
+      //     projectiles.splice(projectileIndex, 1);
+      //   }, 0);
+      // }
+      if (
+        enemy.x + enemy.enemySize >= projectile.x &&
+        enemy.x <= projectile.x + projectile.width &&
+        enemy.y + enemy.enemySize >= projectile.y &&
+        enemy.y <= projectile.y + projectile.height
+      ) {
         setTimeout(() => {
           enemies.splice(index, 1);
           projectiles.splice(projectileIndex, 1);

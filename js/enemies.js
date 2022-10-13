@@ -1,16 +1,20 @@
 class Enemy {
-  constructor(x, y, radius, color, velocity) {
+  constructor(x, y, enemySize, color, velocity) {
     this.x = x;
     this.y = y;
-    this.radius = radius;
+    //this.radius = radius;
     this.color = color;
     this.velocity = velocity;
+    this.enemySize = enemySize;
   }
   draw() {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-    ctx.fillStyle = this.color;
-    ctx.fill();
+    // ctx.beginPath();
+    // ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    // ctx.fillStyle = this.color;
+    // ctx.fill();
+
+    ctx.fillStyle = "green";
+    ctx.fillRect(this.x, this.y, this.enemySize, this.enemySize);
   }
   update() {
     this.draw();
@@ -22,15 +26,16 @@ class Enemy {
 let enemies = [];
 function spawnEnemies() {
   setInterval(() => {
-    const radius = Math.random() * (30 - 4) + 4;
+    //const radius = Math.random() * (30 - 4) + 4;
+    const size = Math.round(Math.random() * (30 - 4) + 4);
 
     let x;
     let y;
     if (Math.random() < 0.5) {
-      x = Math.random() < 0.5 ? 0 - radius : canvas.width + radius;
-
-      y = Math.random() * canvas.height;
-      y = 0;
+      x = Math.random() < 0.5 ? 0 - size : canvas.width + size;
+      y = Math.random() < 0.5 ? 0 - size : canvas.height + size;
+      //y = Math.random() * canvas.height;
+      //y = 0;
     } else {
       x = Math.random() * canvas.width;
       //y = Math.random() < 0.5 ? 0 - radius : canvas.height + radius;
@@ -45,6 +50,6 @@ function spawnEnemies() {
     velocity.x;
     velocity.y;
 
-    enemies.push(new Enemy(x, y, radius, color, velocity));
+    enemies.push(new Enemy(x, y, size, color, velocity));
   }, 500);
 }
