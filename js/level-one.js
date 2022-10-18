@@ -57,10 +57,10 @@ class LevelOne {
       let y2 = mapPoints[i + 1].y;
 
       if (keys.right.pressed && player.position.x >= 500) {
-        mapMove.x -= 0.2;
+        mapMove.x -= 0.1;
         backgroundMove.x -= 0.1;
       } else if (keys.left.pressed && player.position.x <= 200) {
-        mapMove.x += 0.2;
+        mapMove.x += 0.1;
         backgroundMove.x += 0.1;
       }
 

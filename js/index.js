@@ -49,8 +49,10 @@ class Player {
       (this.radius = 50),
       (this.collisionSquare = {
         x: -25,
-        y: -50,
-      });
+        y: 0,
+      }),
+      (this.collisionSquare.width = 119),
+      (this.collisionSquare.height = 25);
 
     this.currentSprite = this.sprites.idle;
     this.currentCropWidth = this.sprites.cropWidth;
@@ -66,7 +68,12 @@ class Player {
     // ctx.arc(35, 30, this.radius, 0, 2 * Math.PI);
     //ctx.stroke();
     ctx.fillStyle = "red";
-    ctx.fillRect(this.collisionSquare.x, this.collisionSquare.y, 119, 87);
+    ctx.fillRect(
+      this.collisionSquare.x,
+      this.collisionSquare.y,
+      this.width + 100,
+      this.collisionSquare.height
+    );
     //ctx.drawImage(truckImage, 0, -25, 119, 56);
 
     ctx.drawImage(
@@ -159,13 +166,13 @@ function animate() {
       }, 0);
     }
   });
-
+  console.log(player.collisionSquare.x);
   enemies.forEach((enemy, index) => {
     enemy.update();
     if (keys.right.pressed && player.position.x >= 500) {
-      enemy.x -= 5;
+      enemy.x -= 8;
     } else if (keys.left.pressed && player.position.x <= 200) {
-      enemy.x += 5;
+      enemy.x += 8;
     }
     const dist = Math.hypot(
       player.position.x - enemy.x,
@@ -173,7 +180,12 @@ function animate() {
     );
 
     // end game
-    if (dist - enemy.radius - player.radius < -1) {
+    if (
+      enemy.x + enemy.enemySize >= player.position.x &&
+      enemy.x <= player.position.x + player.width + 90 &&
+      enemy.y + enemy.enemySize >= player.position.y &&
+      enemy.y <= player.position.y + player.height
+    ) {
       cancelAnimationFrame(animationId);
     }
     //console.log(player.x);
@@ -205,7 +217,10 @@ function animate() {
 
   //mapLines();
 }
-
+addEventListener("click", (event) => {
+  console.log(event.clientX);
+  console.log(event.clientY);
+});
 animate();
 spawnEnemies();
 function mapLines() {

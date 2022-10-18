@@ -1,3 +1,6 @@
+const alien = new Image();
+alien.src = "img/LargeAlien.png";
+
 class Enemy {
   constructor(x, y, enemySize, color, velocity) {
     this.x = x;
@@ -12,9 +15,9 @@ class Enemy {
     // ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
     // ctx.fillStyle = this.color;
     // ctx.fill();
-
-    ctx.fillStyle = "green";
-    ctx.fillRect(this.x, this.y, this.enemySize, this.enemySize);
+    ctx.drawImage(alien, this.x, this.y, this.enemySize, this.enemySize);
+    // ctx.fillStyle = "green";
+    // ctx.fillRect(this.x, this.y, this.enemySize, this.enemySize);
   }
   update() {
     this.draw();
@@ -27,7 +30,7 @@ let enemies = [];
 function spawnEnemies() {
   setInterval(() => {
     //const radius = Math.random() * (30 - 4) + 4;
-    const size = Math.round(Math.random() * (30 - 4) + 4);
+    const size = Math.round(Math.random() * (60 - 20) + 20);
 
     let x;
     let y;
