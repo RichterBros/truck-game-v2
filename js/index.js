@@ -4,8 +4,25 @@ const ctx = canvas.getContext("2d");
 canvas.width = 1280;
 canvas.height = 786;
 
+const scoreEl = document.querySelector("#scoreEl");
+const startBameBtn = document.querySelector("#startGameBtn");
+const modalEl = document.querySelector("#modalEl");
+const bigScoreEl = document.querySelector("#bigScoreEl");
+console.log(scoreEl);
+
+function init() {
+  player = new Player({ position: { x: 300, y: 0 } });
+  projectiles = [];
+  enemies = [];
+  particles = [];
+  score = 0;
+  scoreEl.innerHTML = score;
+  bigScoreEl.innerHTML = score;
+}
+
 let gravity = 1;
 let jumpLimit = 0;
+
 function rect(positionX, positionY, width, height) {
   ctx.fillStyle = "red";
   ctx.fillRect(positionX, positionY, width, height);
@@ -120,11 +137,12 @@ class Player {
 }
 const levelOne = new LevelOne({ position: { x: 0, y: 0 } });
 
-const player = new Player({ position: { x: 300, y: 0 } });
+let player = new Player({ position: { x: 300, y: 0 } });
 
 //const projectile = new Projectile(200, 200, 15, "red", null);
 //const gunRotate = new GunRotate(200, 200, 200, 50);
 let animationId;
+let score = 0;
 function animate() {
   animationId = requestAnimationFrame(animate);
 
@@ -177,7 +195,7 @@ function animate() {
       }, 0);
     }
   });
-  console.log(player.collisionSquare.x);
+  //console.log(player.collisionSquare.x);
 
   enemies.forEach((enemy, index) => {
     enemy.update();
@@ -199,6 +217,8 @@ function animate() {
       enemy.y <= player.position.y + player.height
     ) {
       cancelAnimationFrame(animationId);
+      modalEl.style.display = "flex";
+      bigScoreEl.innerHTML = score;
     }
     //console.log(player.x);
     projectiles.forEach((projectile, projectileIndex) => {
@@ -217,6 +237,10 @@ function animate() {
         enemy.y + enemy.enemySize >= projectile.y &&
         enemy.y <= projectile.y + projectile.height
       ) {
+        //increase score
+        score += 100;
+        scoreEl.innerHTML = score;
+
         //create explosions
         for (let i = 0; i < 8; i++) {
           particles.push(
@@ -244,12 +268,11 @@ function animate() {
 
   //mapLines();
 }
-addEventListener("click", (event) => {
-  console.log(event.clientX);
-  console.log(event.clientY);
-});
-animate();
-spawnEnemies();
+//addEventListener("click", (event) => {
+//console.log(event.clientX);
+//console.log(event.clientY);
+//});
+
 function mapLines() {
   for (let i = 0; i < mapPoints.length; i++) {
     ctx.lineWidth = 5;
@@ -304,4 +327,11 @@ addEventListener("keyup", ({ keyCode }) => {
 
       break;
   }
+});
+
+startGameBtn.addEventListener("click", () => {
+  init();
+  animate();
+  spawnEnemies();
+  modalEl.style.display = "none";
 });

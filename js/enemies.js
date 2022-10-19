@@ -54,5 +54,5 @@ function spawnEnemies() {
     velocity.y;
 
     enemies.push(new Enemy(x, y, size, color, velocity));
-  }, 100);
+  }, 300);
 }

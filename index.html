@@ -8,14 +8,51 @@
     <style>
       body {
         margin: 0;
-        /* background-color: black;
-        display: flex;
+        background-color: black;
+        /*display: flex;
         height: 100vh;
         width: 100vw; */
+      }
+      .score-div {
+        position: fixed;
+        color: grey;
+        margin-left: 10;
+        margin-top: 10;
+        user-select: none;
+      }
+
+      .modal {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        padding: 10;
+      }
+
+      .white {
+        background-color: white;
       }
     </style>
   </head>
   <body>
+    <div class="score-div"><span>Score:</span><span id="scoreEl">0</span></div>
+
+    <div class="modal" id="modalEl">
+      <div class="white">
+        <h1 id="bigScoreEl">0</h1>
+        <p>Points</p>
+        <div>
+          <button id="startGameBtn">Start Game</button>
+        </div>
+      </div>
+    </div>
+
     <canvas></canvas>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"

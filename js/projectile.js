@@ -25,8 +25,8 @@ class Projectile {
 }
 
 let timer = null;
-const projectiles = [];
-const particles = [];
+let projectiles = [];
+let particles = [];
 // addEventListener("click", (event) => {
 //   //console.log(projectiles);
 //   //timer = setInterval(function () {
