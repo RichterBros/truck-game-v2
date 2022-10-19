@@ -26,7 +26,7 @@ class Projectile {
 
 let timer = null;
 const projectiles = [];
-
+const particles = [];
 // addEventListener("click", (event) => {
 //   //console.log(projectiles);
 //   //timer = setInterval(function () {
@@ -63,7 +63,7 @@ const projectiles = [];
 //   // removeEventListener("mousemove", test());
 // });
 addEventListener("click", (event) => {
-  console.log(projectiles);
+  //console.log(projectiles);
   const angle = Math.atan2(
     event.clientY - player.position.y,
     event.clientX - player.position.x
@@ -85,3 +85,35 @@ addEventListener("click", (event) => {
     ))
   );
 });
+
+class Particle {
+  constructor(x, y, velocity) {
+    this.x = x;
+    this.y = y;
+    //this.radius = radius;
+    this.color = "GreenYellow";
+    this.velocity = velocity;
+    this.size = Math.random() * 10;
+    this.alpha = 1;
+  }
+  draw() {
+    // ctx.beginPath();
+    // ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    // ctx.fillStyle = this.color;
+    // ctx.fill();
+    //ctx.drawImage(alien, this.x, this.y, this.enemySize, this.enemySize);
+    ctx.save();
+    ctx.globalAlpha = this.alpha;
+    ctx.fillStyle = this.color;
+    ctx.fillRect(this.x, this.y, this.size, this.size);
+    ctx.restore();
+    // ctx.fillStyle = "green";
+    // ctx.fillRect(this.x, this.y, this.enemySize, this.enemySize);
+  }
+  update() {
+    this.draw();
+    this.x = this.x + this.velocity.x * 5;
+    this.y = this.y + this.velocity.y * 5;
+    this.alpha -= 0.01;
+  }
+}

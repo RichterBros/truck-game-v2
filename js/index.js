@@ -29,6 +29,7 @@ const truckImage = new Image();
 truckImage.src = "img/truckSpritesheetIdle_V3.png";
 const truckImageJump = new Image();
 truckImageJump.src = "img/truck-jumpV2.png";
+
 class Player {
   constructor({ position = { x: 0, y: 0 } }) {
     (this.position = position),
@@ -68,12 +69,12 @@ class Player {
     // ctx.arc(35, 30, this.radius, 0, 2 * Math.PI);
     //ctx.stroke();
     ctx.fillStyle = "red";
-    ctx.fillRect(
-      this.collisionSquare.x,
-      this.collisionSquare.y,
-      this.width + 100,
-      this.collisionSquare.height
-    );
+    // ctx.fillRect(
+    //   this.collisionSquare.x,
+    //   this.collisionSquare.y,
+    //   this.width + 100,
+    //   this.collisionSquare.height
+    // );
     //ctx.drawImage(truckImage, 0, -25, 119, 56);
 
     ctx.drawImage(
@@ -122,7 +123,7 @@ const levelOne = new LevelOne({ position: { x: 0, y: 0 } });
 const player = new Player({ position: { x: 300, y: 0 } });
 
 //const projectile = new Projectile(200, 200, 15, "red", null);
-
+//const gunRotate = new GunRotate(200, 200, 200, 50);
 let animationId;
 function animate() {
   animationId = requestAnimationFrame(animate);
@@ -139,6 +140,16 @@ function animate() {
   );
   player.update();
   ctx.drawImage(image, mapMove.x, mapMove.y);
+
+  particles.forEach((particle, index) => {
+    if (particle.alpha <= 0) {
+      particles.splice(index, 1);
+    } else {
+      particle.update();
+    }
+  });
+
+  // gunRotate.draw();
 
   if (keys.up.pressed && jumpLimit < 6) {
     player.currentSprite = player.sprites.jump;
@@ -167,6 +178,7 @@ function animate() {
     }
   });
   console.log(player.collisionSquare.x);
+
   enemies.forEach((enemy, index) => {
     enemy.update();
     if (keys.right.pressed && player.position.x >= 500) {
@@ -205,6 +217,21 @@ function animate() {
         enemy.y + enemy.enemySize >= projectile.y &&
         enemy.y <= projectile.y + projectile.height
       ) {
+        //create explosions
+        for (let i = 0; i < 8; i++) {
+          particles.push(
+            new Particle(
+              projectile.x,
+              projectile.y,
+
+              {
+                x: Math.random() - 0.5,
+                y: Math.random() - 0.5,
+              }
+            )
+          );
+        }
+
         setTimeout(() => {
           enemies.splice(index, 1);
           projectiles.splice(projectileIndex, 1);
