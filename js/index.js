@@ -11,7 +11,7 @@ const bigScoreEl = document.querySelector("#bigScoreEl");
 console.log(scoreEl);
 
 function init() {
-  player = new Player({ position: { x: 300, y: 0 } });
+  player = new Player({ position: { x: 500, y: 0 } });
   projectiles = [];
   enemies = [];
   particles = [];
@@ -19,7 +19,7 @@ function init() {
   scoreEl.innerHTML = score;
   bigScoreEl.innerHTML = score;
 }
-
+let flag = true;
 let gravity = 1;
 let jumpLimit = 0;
 
@@ -66,11 +66,12 @@ class Player {
       }),
       (this.radius = 50),
       (this.collisionSquare = {
-        x: -25,
-        y: 0,
+        x: -15,
+        y: -15,
       }),
-      (this.collisionSquare.width = 119),
-      (this.collisionSquare.height = 25);
+      (this.collisionSquare.width = 25),
+      (this.collisionSquare.height = 25),
+      (this.alpha = 1);
 
     this.currentSprite = this.sprites.idle;
     this.currentCropWidth = this.sprites.cropWidth;
@@ -81,18 +82,19 @@ class Player {
     ctx.translate(this.position.x, this.position.y);
     ctx.rotate((this.degrees * Math.PI) / 360);
 
-    //Collision---
-    // ctx.beginPath();
-    // ctx.arc(35, 30, this.radius, 0, 2 * Math.PI);
-    //ctx.stroke();
-    ctx.fillStyle = "red";
-    // ctx.fillRect(
-    //   this.collisionSquare.x,
-    //   this.collisionSquare.y,
-    //   this.width + 100,
-    //   this.collisionSquare.height
-    // );
-    //ctx.drawImage(truckImage, 0, -25, 119, 56);
+    ctx.save();
+
+    ctx.globalAlpha = this.alpha;
+    ctx.fillStyle = "brown";
+    ctx.fillRect(
+      this.collisionSquare.x,
+      this.collisionSquare.y,
+      this.collisionSquare.width,
+      this.collisionSquare.height
+    );
+    ctx.restore();
+
+    ctx.fillStyle = "brown";
 
     ctx.drawImage(
       this.currentSprite,
@@ -123,7 +125,27 @@ class Player {
     this.position.y += this.velocity.y;
 
     this.position.x += this.velocity.x;
+    // this.collisionSquare.y -= 1;
+    // // this.collisionSquare.y += 1;
+    // if (this.collisionSquare.y <= -20) {
+    //   this.collisionSquare.y += 1;
+    // }
 
+    if (flag) {
+      //do something, and eventually set flag to false
+      this.collisionSquare.y -= 1;
+      if (this.collisionSquare.y == -17) {
+        flag = false;
+      }
+    } else if (!flag) {
+      this.collisionSquare.y += 1;
+    }
+    if (this.collisionSquare.y == -10) {
+      this.collisionSquare.y -= 1;
+      flag = true;
+    }
+
+    //console.log(this.collisionSquare.y);
     // if (keys.up.pressed && jumpLimit < 6) {
     //   player.currentCropHeight = 87;
     //   player.currentSprite = player.sprites.jump;
@@ -137,7 +159,7 @@ class Player {
 }
 const levelOne = new LevelOne({ position: { x: 0, y: 0 } });
 
-let player = new Player({ position: { x: 300, y: 0 } });
+let player = new Player({ position: { x: 500, y: 0 } });
 
 //const projectile = new Projectile(200, 200, 15, "red", null);
 //const gunRotate = new GunRotate(200, 200, 200, 50);
@@ -150,13 +172,13 @@ function animate() {
   ctx.fillStyle = "white";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // player.draw();
   ctx.drawImage(
     backgroundImage,
     backgroundMove.x - 250,
     backgroundMove.y - 500
   );
   player.update();
+  cargo.update();
   ctx.drawImage(image, mapMove.x, mapMove.y);
 
   particles.forEach((particle, index) => {
@@ -201,7 +223,7 @@ function animate() {
     enemy.update();
     if (keys.right.pressed && player.position.x >= 500) {
       enemy.x -= 8;
-    } else if (keys.left.pressed && player.position.x <= 200) {
+    } else if (keys.left.pressed && player.position.x <= leftMove) {
       enemy.x += 8;
     }
     const dist = Math.hypot(
@@ -210,17 +232,17 @@ function animate() {
     );
 
     // end game
-    if (
-      enemy.x + enemy.enemySize >= player.position.x &&
-      enemy.x <= player.position.x + player.width + 90 &&
-      enemy.y + enemy.enemySize >= player.position.y &&
-      enemy.y <= player.position.y + player.height
-    ) {
-      cancelAnimationFrame(animationId);
-      modalEl.style.display = "block";
-      bigScoreEl.innerHTML = score;
-    }
-    //console.log(player.x);
+    // if (
+    //   enemy.x + enemy.enemySize >= player.position.x &&
+    //   enemy.x <= player.position.x + player.width + 90 &&
+    //   enemy.y + enemy.enemySize >= player.position.y &&
+    //   enemy.y <= player.position.y + player.height
+    // ) {
+    //   cancelAnimationFrame(animationId);
+    //   modalEl.style.display = "block";
+    //   bigScoreEl.innerHTML = score;
+    // }
+
     projectiles.forEach((projectile, projectileIndex) => {
       const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y);
 
@@ -268,10 +290,10 @@ function animate() {
 
   //mapLines();
 }
-//addEventListener("click", (event) => {
-//console.log(event.clientX);
-//console.log(event.clientY);
-//});
+addEventListener("click", (event) => {
+  console.log(event.clientX);
+  console.log(event.clientY);
+});
 
 function mapLines() {
   for (let i = 0; i < mapPoints.length; i++) {

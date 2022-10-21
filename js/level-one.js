@@ -5,7 +5,7 @@ image.src = "img/truck-level-one-v4.png";
 const backgroundImage = new Image();
 
 backgroundImage.src = "img/backgroundv2 copy.png";
-
+let leftMove = 400;
 let truckAngle = [];
 
 let mapMove = {
@@ -59,7 +59,7 @@ class LevelOne {
       if (keys.right.pressed && player.position.x >= 500) {
         mapMove.x -= 0.1;
         backgroundMove.x -= 0.1;
-      } else if (keys.left.pressed && player.position.x <= 200) {
+      } else if (keys.left.pressed && player.position.x <= leftMove) {
         mapMove.x += 0.1;
         backgroundMove.x += 0.1;
       }
@@ -148,9 +148,9 @@ class LevelOne {
       player.velocity.x = 0;
     }
 
-    if (keys.left.pressed && player.position.x > 200) {
+    if (keys.left.pressed && player.position.x > leftMove) {
       player.velocity.x -= 0.2;
-    } else if (keys.left.pressed && player.position.x <= 200) {
+    } else if (keys.left.pressed && player.position.x <= leftMove) {
       player.velocity.x = 0;
     }
     //------------------------------------------------------
