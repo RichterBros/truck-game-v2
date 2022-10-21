@@ -43,7 +43,7 @@
       .white {
       
         justify-content: center;
-         height: 50%;
+         height: 60%;
         display:"flex";
         font-family:  "Courier New", monospace;
         background-color: #fefefe;
@@ -73,17 +73,18 @@ align-items: center;
     </style>
   </head>
   <body>
-    <div class="score-div"><span><h2>Score:</span><span id="scoreEl">0</h2></span></div>
+    <div class="score-div"><h2>Score:<span id="scoreEl">0</h2></span></div>
 
     <div class="modal" id="modalEl">
       <div class="white">
         <img src="img/title.png" ></img>
         <h1 id="bigScoreEl">0</h1>
-        <p>Points</p>
+        <p id ='points'>Points</p>
         <div >
           <button id="startGameBtn"class="button" ><h1>Start Game!</h1></button>
         </div>
         <p><b>ASDW:</b> movement | <b>left mouse:</b> fire | <b>hold down left mouse and move mouse:</b> spray shot</p>
+        <p>Instructions: get the brown box to the pink box!</p>
       </div>
     </div>
 
@@ -95,6 +96,8 @@ align-items: center;
       referrerpolicy="no-referrer"
     ></script>
     <script src="js/cargo.js"></script>
+    <script src="js/winBox.js"></script>
+    <script src="js/spikeBox.js"></script>
     <script src="js/map-points.js"></script>
     <script src="js/level-one.js"></script>
     <script src="js/enemies.js"></script>

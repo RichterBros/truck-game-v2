@@ -8,16 +8,20 @@ const scoreEl = document.querySelector("#scoreEl");
 const startBameBtn = document.querySelector("#startGameBtn");
 const modalEl = document.querySelector("#modalEl");
 const bigScoreEl = document.querySelector("#bigScoreEl");
+const points = document.querySelector("#points");
 console.log(scoreEl);
 
 function init() {
-  player = new Player({ position: { x: 500, y: 0 } });
+  player = new Player({ position: { x: 300, y: 0 } });
   projectiles = [];
   enemies = [];
   particles = [];
   score = 0;
   scoreEl.innerHTML = score;
   bigScoreEl.innerHTML = score;
+  winState = false;
+  player.alpha = 0;
+  cargo.alpha = 1;
 }
 let flag = true;
 let gravity = 1;
@@ -71,7 +75,7 @@ class Player {
       }),
       (this.collisionSquare.width = 25),
       (this.collisionSquare.height = 25),
-      (this.alpha = 1);
+      (this.alpha = 0);
 
     this.currentSprite = this.sprites.idle;
     this.currentCropWidth = this.sprites.cropWidth;
@@ -178,7 +182,10 @@ function animate() {
     backgroundMove.y - 500
   );
   player.update();
+  spikeBox.update();
+  spikeBox2.update();
   cargo.update();
+  winBox.update();
   ctx.drawImage(image, mapMove.x, mapMove.y);
 
   particles.forEach((particle, index) => {
@@ -231,17 +238,17 @@ function animate() {
       player.position.y - enemy.y
     );
 
-    // end game
-    // if (
-    //   enemy.x + enemy.enemySize >= player.position.x &&
-    //   enemy.x <= player.position.x + player.width + 90 &&
-    //   enemy.y + enemy.enemySize >= player.position.y &&
-    //   enemy.y <= player.position.y + player.height
-    // ) {
-    //   cancelAnimationFrame(animationId);
-    //   modalEl.style.display = "block";
-    //   bigScoreEl.innerHTML = score;
-    // }
+    //end game
+    if (
+      enemy.x + enemy.enemySize >= player.position.x &&
+      enemy.x <= player.position.x + player.width + 90 &&
+      enemy.y + enemy.enemySize >= player.position.y &&
+      enemy.y <= player.position.y + player.height
+    ) {
+      cancelAnimationFrame(animationId);
+      modalEl.style.display = "block";
+      bigScoreEl.innerHTML = score;
+    }
 
     projectiles.forEach((projectile, projectileIndex) => {
       const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y);
@@ -290,10 +297,10 @@ function animate() {
 
   //mapLines();
 }
-addEventListener("click", (event) => {
-  console.log(event.clientX);
-  console.log(event.clientY);
-});
+// addEventListener("click", (event) => {
+//   console.log(event.clientX);
+//   console.log(event.clientY);
+// });
 
 function mapLines() {
   for (let i = 0; i < mapPoints.length; i++) {

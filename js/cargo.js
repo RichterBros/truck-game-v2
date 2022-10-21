@@ -1,4 +1,4 @@
-let cargoCollide = null;
+let cargoCollide = false;
 
 class Cargo {
   constructor({ position = { x: 0, y: 0 } }, width, height) {
@@ -18,10 +18,10 @@ class Cargo {
   update() {
     this.draw();
 
-    // this.position.y = mapMove.y + 455;
-    // this.position.x = mapMove.x + 6050;
-    this.position.y = mapMove.y + 440;
-    this.position.x = mapMove.x + 440;
+    this.position.y = mapMove.y + 455;
+    this.position.x = mapMove.x + 6050;
+    // this.position.y = mapMove.y + 440;
+    // this.position.x = mapMove.x + 400;
 
     if (
       this.position.x + this.width >= player.position.x &&
@@ -34,9 +34,12 @@ class Cargo {
       cargoCollide = true;
       player.alpha = 1;
     }
+    // if (cargoCollide) {
+    //   this.position.x = player.position.x - 15;
+    //   this.position.y = player.position.y - 20;
+    // }
     if (cargoCollide) {
-      this.position.x = player.position.x - 15;
-      this.position.y = player.position.y - 20;
+      winState = true;
     }
   }
 }
