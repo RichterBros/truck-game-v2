@@ -1,7 +1,7 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
-canvas.width = 1280;
+canvas.width = innerWidth;
 canvas.height = 786;
 
 const scoreEl = document.querySelector("#scoreEl");
@@ -217,7 +217,7 @@ function animate() {
       enemy.y <= player.position.y + player.height
     ) {
       cancelAnimationFrame(animationId);
-      modalEl.style.display = "flex";
+      modalEl.style.display = "block";
       bigScoreEl.innerHTML = score;
     }
     //console.log(player.x);

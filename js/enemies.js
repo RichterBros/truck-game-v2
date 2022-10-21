@@ -41,7 +41,8 @@ function spawnEnemies() {
       //y = 0;
     } else {
       x = Math.random() * canvas.width;
-      //y = Math.random() < 0.5 ? 0 - radius : canvas.height + radius;
+      //y = Math.random() * canvas.height;
+      y = Math.random() < 0.5 ? 0 - size : canvas.height + size;
     }
     const color = "green";
 
