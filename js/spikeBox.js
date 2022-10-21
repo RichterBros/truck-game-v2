@@ -37,5 +37,5 @@ class SpikeBox {
   }
 }
 
-let spikeBox = new SpikeBox(0, 0, 200, 25, 1850, 555);
+let spikeBox = new SpikeBox(0, 0, 170, 25, 1850, 555);
 let spikeBox2 = new SpikeBox(0, 0, 500, 25, 2450, 570);
