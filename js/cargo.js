@@ -1,5 +1,9 @@
 let cargoCollide = false;
 
+const box = new Image();
+
+box.src = "img/crate2.jpg";
+
 class Cargo {
   constructor({ position = { x: 0, y: 0 } }, width, height) {
     (this.position = position),
@@ -11,8 +15,15 @@ class Cargo {
     ctx.save();
 
     ctx.globalAlpha = this.alpha;
-    ctx.fillStyle = "brown";
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    // ctx.fillStyle = "brown";
+    // ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    ctx.drawImage(
+      box,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
     ctx.restore();
   }
   update() {
@@ -20,8 +31,9 @@ class Cargo {
 
     this.position.y = mapMove.y + 455;
     this.position.x = mapMove.x + 6050;
-    // this.position.y = mapMove.y + 440;
-    // this.position.x = mapMove.x + 400;
+
+    // this.position.y = mapMove.y + 420;
+    // this.position.x = mapMove.x + 420;
 
     if (
       this.position.x + this.width >= player.position.x &&
@@ -44,4 +56,4 @@ class Cargo {
   }
 }
 
-let cargo = new Cargo({ position: { x: 500, y: 350 } }, 25, 25);
+let cargo = new Cargo({ position: { x: 500, y: 325 } }, 50, 50);

@@ -11,6 +11,9 @@ const bigScoreEl = document.querySelector("#bigScoreEl");
 const points = document.querySelector("#points");
 console.log(scoreEl);
 
+const box2 = new Image();
+box2.src = "img/crate2.jpg";
+
 function init() {
   player = new Player({ position: { x: 300, y: 0 } });
   projectiles = [];
@@ -89,13 +92,22 @@ class Player {
     ctx.save();
 
     ctx.globalAlpha = this.alpha;
-    ctx.fillStyle = "brown";
-    ctx.fillRect(
+
+    ctx.drawImage(
+      box2,
       this.collisionSquare.x,
       this.collisionSquare.y,
       this.collisionSquare.width,
       this.collisionSquare.height
     );
+
+    // ctx.fillStyle = "brown";
+    // ctx.fillRect(
+    //   this.collisionSquare.x,
+    //   this.collisionSquare.y,
+    //   this.collisionSquare.width,
+    //   this.collisionSquare.height
+    // );
     ctx.restore();
 
     ctx.fillStyle = "brown";
