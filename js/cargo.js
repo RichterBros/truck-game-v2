@@ -29,7 +29,7 @@ class Cargo {
   update() {
     this.draw();
 
-    this.position.y = mapMove.y + 455;
+    this.position.y = mapMove.y + 430;
     this.position.x = mapMove.x + 6050;
 
     // this.position.y = mapMove.y + 420;

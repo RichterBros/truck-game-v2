@@ -171,7 +171,7 @@ class LevelOne {
 }
 
 function mapLines() {
-  for (let i = 0; i < mapPoints.length; i++) {
+  for (let i = 0; i < mapPoints.length - 1; i++) {
     ctx.lineWidth = 5;
     ctx.strokeStyle = "red";
     ctx.beginPath();

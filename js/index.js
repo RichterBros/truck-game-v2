@@ -74,10 +74,10 @@ class Player {
       (this.radius = 50),
       (this.collisionSquare = {
         x: -15,
-        y: -15,
+        y: -25,
       }),
-      (this.collisionSquare.width = 25),
-      (this.collisionSquare.height = 25),
+      (this.collisionSquare.width = 50),
+      (this.collisionSquare.height = 50),
       (this.alpha = 0);
 
     this.currentSprite = this.sprites.idle;
@@ -150,13 +150,13 @@ class Player {
     if (flag) {
       //do something, and eventually set flag to false
       this.collisionSquare.y -= 1;
-      if (this.collisionSquare.y == -17) {
+      if (this.collisionSquare.y == -29) {
         flag = false;
       }
     } else if (!flag) {
       this.collisionSquare.y += 1;
     }
-    if (this.collisionSquare.y == -10) {
+    if (this.collisionSquare.y == -22) {
       this.collisionSquare.y -= 1;
       flag = true;
     }
@@ -199,6 +199,8 @@ function animate() {
   cargo.update();
   winBox.update();
   ctx.drawImage(image, mapMove.x, mapMove.y);
+
+  // mapLines();
 
   particles.forEach((particle, index) => {
     if (particle.alpha <= 0) {
@@ -265,13 +267,6 @@ function animate() {
     projectiles.forEach((projectile, projectileIndex) => {
       const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y);
 
-      // when projectiles touch enemy
-      // if (dist - enemy.radius - projectile.radius < 1) {
-      //   setTimeout(() => {
-      //     enemies.splice(index, 1);
-      //     projectiles.splice(projectileIndex, 1);
-      //   }, 0);
-      // }
       if (
         enemy.x + enemy.enemySize >= projectile.x &&
         enemy.x <= projectile.x + projectile.width &&
@@ -304,27 +299,11 @@ function animate() {
       }
     });
   });
-
-  //enemy.update();
-
-  //mapLines();
 }
 // addEventListener("click", (event) => {
 //   console.log(event.clientX);
 //   console.log(event.clientY);
 // });
-
-function mapLines() {
-  for (let i = 0; i < mapPoints.length; i++) {
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = "red";
-    ctx.beginPath();
-    ctx.moveTo(mapPoints[i].x, mapPoints[i].y);
-
-    ctx.lineTo(mapPoints[i + 1].x, mapPoints[i + 1].y);
-    ctx.stroke();
-  }
-}
 
 addEventListener("keydown", ({ keyCode }) => {
   switch (keyCode) {

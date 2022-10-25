@@ -1,5 +1,10 @@
 let winBoxCollide = null;
 let winState = false;
+
+const loadingDock = new Image();
+
+loadingDock.src = "img/loading-dock.png";
+
 class WinBox {
   constructor({ position = { x: 0, y: 0 } }, width, height) {
     (this.position = position),
@@ -9,10 +14,16 @@ class WinBox {
   }
   draw() {
     ctx.save();
-
+    ctx.drawImage(
+      loadingDock,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
     ctx.globalAlpha = this.alpha;
-    ctx.fillStyle = "pink";
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    // ctx.fillStyle = "pink";
+    // ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
     ctx.restore();
   }
   update() {
@@ -20,7 +31,7 @@ class WinBox {
 
     // this.position.y = mapMove.y + 455;
     // this.position.x = mapMove.x + 6050;
-    this.position.y = mapMove.y + 440;
+    this.position.y = mapMove.y + 310;
     this.position.x = mapMove.x + 100;
     if (winState) {
       if (
@@ -48,4 +59,4 @@ class WinBox {
   }
 }
 
-let winBox = new WinBox({ position: { x: 700, y: 350 } }, 25, 25);
+let winBox = new WinBox({ position: { x: 700, y: 800 } }, 196, 166);
