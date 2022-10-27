@@ -22,15 +22,12 @@ class WinBox {
       this.height
     );
     ctx.globalAlpha = this.alpha;
-    // ctx.fillStyle = "pink";
-    // ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+
     ctx.restore();
   }
   update() {
     this.draw();
 
-    // this.position.y = mapMove.y + 455;
-    // this.position.x = mapMove.x + 6050;
     this.position.y = mapMove.y + 310;
     this.position.x = mapMove.x + 100;
     if (winState) {
@@ -52,10 +49,6 @@ class WinBox {
         bigScoreEl.innerHTML = score + " " + "points" + " " + "YOU WIN!!!";
         points.innerHTML = "Good job!";
       }
-      // if (winBoxCollide) {d
-      //   this.position.x = player.position.x - 15;
-      //   this.position.y = player.position.y - 20;
-      // }
     }
   }
 }

@@ -3,11 +3,6 @@ pew.src = "audio/Laser_shoot 45.wav";
 
 let projectileBlue = new Image();
 projectileBlue.src = "img/projectile-blue.png";
-// function blast() {
-//   const newAudio = new Audio("audio/Laser_shoot 68 (8).wav");
-//   newAudio.play();
-//   newAudio.volume = 0.1;
-// }
 
 class Projectile {
   constructor(x, y, color, velocity, width, height) {
@@ -19,8 +14,6 @@ class Projectile {
     (this.width = width), (this.height = height);
   }
   draw() {
-    // ctx.fillStyle = "red";
-    //ctx.fillRect(this.x, this.y, this.width, this.height);
     ctx.drawImage(projectileBlue, this.x, this.y, this.width, this.height);
   }
 

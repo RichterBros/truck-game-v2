@@ -19,8 +19,6 @@ class SpikeBox {
   update() {
     this.draw();
 
-    // this.position.y = mapMove.y + 455;
-    // this.position.x = mapMove.x + 6050;
     this.positionX = mapMove.x + this.offsetX;
     this.positionY = mapMove.y + this.offsetY;
 

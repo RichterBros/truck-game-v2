@@ -28,8 +28,6 @@ for (let i = 0; i < mapPoints.length - 1; i++) {
   truckAngle.push((y2 - y1) / (x2 - x1));
 }
 
-//console.log(truckAngle);
-
 function collisionRect(x, positionY, width, height, color) {
   ctx.globalAlpha = 1;
   this.x = x;
@@ -81,15 +79,13 @@ class LevelOne {
       }
 
       let angle = (y2 - y1) / (x2 - x1);
-      //console.log(player.position.y);
-      //console.log(player.position.y);
-      //player.degrees = player.position.y;
+
       // Slope collision detection-------------------
       let offsetX = -x1 - mapMove.x;
-      let y = 0; //slope
-      let m = angle; // rise/run
+      let y = 0;
+      let m = angle;
       let x = player.position.x + offsetX;
-      let b = y1 + mapMove.y; // slope intercept
+      let b = y1 + mapMove.y;
 
       let collisionZone3 = new collisionRect(
         -offsetX,
@@ -125,8 +121,6 @@ class LevelOne {
       }
 
       if (collision) {
-        //player.degrees = m * 100;
-
         if (Math.round(player.degrees) < Math.round(m * 100)) {
           Math.round((player.degrees += 5));
         } else if (Math.round(player.degrees) > Math.round(m * 100)) {
@@ -163,10 +157,7 @@ class LevelOne {
       jumpLimit++;
     } else {
       gravity = 1;
-      // player.currentSprite = player.sprites.idle;
-      // player.currentCropHeight = 56;
     }
-    //console.log(jumpLimit);
   }
 }
 

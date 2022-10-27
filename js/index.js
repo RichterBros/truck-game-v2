@@ -17,9 +17,6 @@ explode.src = "audio/Explosion 19.wav";
 let screech = new Audio();
 screech.src = "audio/screech.wav";
 
-// let engine = new Audio();
-// engine.src = "audio/engine.wav";
-
 var engine = new Howl({
   src: ["audio/engine.wav"],
   autoplay: false,
@@ -132,13 +129,6 @@ class Player {
       this.collisionSquare.height
     );
 
-    // ctx.fillStyle = "brown";
-    // ctx.fillRect(
-    //   this.collisionSquare.x,
-    //   this.collisionSquare.y,
-    //   this.collisionSquare.width,
-    //   this.collisionSquare.height
-    // );
     ctx.restore();
 
     ctx.fillStyle = "brown";
@@ -186,25 +176,12 @@ class Player {
       this.collisionSquare.y -= 1;
       flag = true;
     }
-
-    //console.log(this.collisionSquare.y);
-    // if (keys.up.pressed && jumpLimit < 6) {
-    //   player.currentCropHeight = 87;
-    //   player.currentSprite = player.sprites.jump;
-    //   player.velocity.y -= 3;
-    //   gravity = -1;
-    //   jumpLimit++;
-    // } else {
-    //   gravity = 1;
-    // }
   }
 }
 const levelOne = new LevelOne({ position: { x: 0, y: 0 } });
 
 let player = new Player({ position: { x: 500, y: 0 } });
 
-//const projectile = new Projectile(200, 200, 15, "red", null);
-//const gunRotate = new GunRotate(200, 200, 200, 50);
 let animationId;
 let score = 0;
 function animate() {
@@ -241,8 +218,6 @@ function animate() {
   winBox.update();
   ctx.drawImage(image, mapMove.x, mapMove.y);
 
-  // mapLines();
-
   particles.forEach((particle, index) => {
     if (particle.alpha <= 0) {
       particles.splice(index, 1);
@@ -250,8 +225,6 @@ function animate() {
       particle.update();
     }
   });
-
-  // gunRotate.draw();
 
   if (keys.up.pressed && jumpLimit < 6) {
     player.currentSprite = player.sprites.jump;
@@ -261,25 +234,6 @@ function animate() {
   } else {
     gravity = 1;
   }
-
-  // player.currentCropHeight = 56;
-
-  // projectiles.forEach((projectile, index) => {
-  //   projectile.update();
-
-  //   //remove from screen
-  //   if (
-  //     projectile.x < 0 ||
-  //     projectile.x > canvas.width ||
-  //     projectile.y < 0 ||
-  //     projectile.y > canvas.height
-  //   ) {
-  //     setTimeout(() => {
-  //       projectiles.splice(index, 1);
-  //     }, 0);
-  //   }
-  // });
-  //console.log(player.collisionSquare.x);
 
   enemies.forEach((enemy, index) => {
     enemy.update();
@@ -293,13 +247,6 @@ function animate() {
       player.position.y - enemy.y
     );
 
-    // if (player.position.y <= 50) {
-    //   enemy.y += 5;
-    // }
-
-    // if (player.position.y > 640) {
-    //   enemy.y -= 5;
-    // }
     enemy.y += 1;
     //end game
     if (
@@ -343,11 +290,7 @@ function animate() {
           );
         }
         setTimeout(() => {
-          //explode.play();
-          // explode.play();
           blast();
-          //sound.fade(1, 0, 100);
-          //explode.volume = 0.5;
         }, 0);
 
         setTimeout(() => {
@@ -358,13 +301,10 @@ function animate() {
     });
   });
 }
-// addEventListener("click", (event) => {
-//   console.log(event.clientX);
-//   console.log(event.clientY);
-// });
+
 let keyRight = 0;
 let keyLeft = 0;
-//console.log(engineNoise);
+
 addEventListener("keydown", ({ keyCode }) => {
   switch (keyCode) {
     case 65:
