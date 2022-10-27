@@ -219,6 +219,21 @@ function animate() {
     backgroundMove.x - 250,
     backgroundMove.y - 500
   );
+  projectiles.forEach((projectile, index) => {
+    projectile.update();
+
+    //remove from screen
+    if (
+      projectile.x < 0 ||
+      projectile.x > canvas.width ||
+      projectile.y < 0 ||
+      projectile.y > canvas.height
+    ) {
+      setTimeout(() => {
+        projectiles.splice(index, 1);
+      }, 0);
+    }
+  });
   player.update();
   spikeBox.update();
   spikeBox2.update();
@@ -249,21 +264,21 @@ function animate() {
 
   // player.currentCropHeight = 56;
 
-  projectiles.forEach((projectile, index) => {
-    projectile.update();
+  // projectiles.forEach((projectile, index) => {
+  //   projectile.update();
 
-    //remove from screen
-    if (
-      projectile.x < 0 ||
-      projectile.x > canvas.width ||
-      projectile.y < 0 ||
-      projectile.y > canvas.height
-    ) {
-      setTimeout(() => {
-        projectiles.splice(index, 1);
-      }, 0);
-    }
-  });
+  //   //remove from screen
+  //   if (
+  //     projectile.x < 0 ||
+  //     projectile.x > canvas.width ||
+  //     projectile.y < 0 ||
+  //     projectile.y > canvas.height
+  //   ) {
+  //     setTimeout(() => {
+  //       projectiles.splice(index, 1);
+  //     }, 0);
+  //   }
+  // });
   //console.log(player.collisionSquare.x);
 
   enemies.forEach((enemy, index) => {
@@ -286,6 +301,7 @@ function animate() {
       enemy.y <= player.position.y + player.height
     ) {
       cancelAnimationFrame(animationId);
+      getCargo = 0;
       modalEl.style.display = "block";
       bigScoreEl.innerHTML = score;
       music.pause();

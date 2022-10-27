@@ -58,18 +58,18 @@ class LevelOne {
 
       if (keys.right.pressed && player.position.x >= 500) {
         mapMove.x -= 0.1;
-        backgroundMove.x -= 0.1;
+        backgroundMove.x -= 0.05;
       } else if (keys.left.pressed && player.position.x <= leftMove) {
         mapMove.x += 0.1;
-        backgroundMove.x += 0.1;
+        backgroundMove.x += 0.05;
       }
 
       if (keys.left.pressed && player.position.y <= 50) {
         mapMove.y += 0.2;
-        backgroundMove.y += 0.1;
+        backgroundMove.y += 0.05;
       } else if (keys.right.pressed && player.position.y > 640) {
         mapMove.y -= 0.2;
-        backgroundMove.y -= 0.1;
+        backgroundMove.y -= 0.05;
       }
 
       if (player.position.y <= 50) {
