@@ -52,7 +52,7 @@ class Cargo {
         getCrate.play();
       }
 
-      getCrate.loop = false;
+      //dgetCrate.loop = false;
     }
     //getCrate.pause();
     // if (cargoCollide) {

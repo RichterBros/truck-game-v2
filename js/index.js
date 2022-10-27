@@ -293,6 +293,14 @@ function animate() {
       player.position.y - enemy.y
     );
 
+    // if (player.position.y <= 50) {
+    //   enemy.y += 5;
+    // }
+
+    // if (player.position.y > 640) {
+    //   enemy.y -= 5;
+    // }
+    enemy.y += 1;
     //end game
     if (
       enemy.x + enemy.enemySize >= player.position.x &&
