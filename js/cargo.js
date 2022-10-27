@@ -1,8 +1,11 @@
 let cargoCollide = false;
-
+let getCargo = 0;
 const box = new Image();
 
 box.src = "img/crate2.jpg";
+
+let getCrate = new Audio();
+getCrate.src = "audio/Pickup_coin 52.wav";
 
 class Cargo {
   constructor({ position = { x: 0, y: 0 } }, width, height) {
@@ -32,8 +35,8 @@ class Cargo {
     this.position.y = mapMove.y + 430;
     this.position.x = mapMove.x + 6050;
 
-    // this.position.y = mapMove.y + 420;
-    // this.position.x = mapMove.x + 420;
+    // this.position.y = mapMove.y + 330;
+    // this.position.x = mapMove.x + 520;
 
     if (
       this.position.x + this.width >= player.position.x &&
@@ -41,11 +44,17 @@ class Cargo {
       this.position.y + this.height >= player.position.y &&
       this.position.y <= player.position.y + player.height
     ) {
-      console.log("package picked up!");
       this.alpha = 0;
       cargoCollide = true;
       player.alpha = 1;
+      getCargo += 1;
+      if (getCargo < 2) {
+        getCrate.play();
+      }
+
+      getCrate.loop = false;
     }
+    //getCrate.pause();
     // if (cargoCollide) {
     //   this.position.x = player.position.x - 15;
     //   this.position.y = player.position.y - 20;

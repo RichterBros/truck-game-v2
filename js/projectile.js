@@ -1,3 +1,12 @@
+let pew = new Audio();
+pew.src = "audio/Laser_shoot 45.wav";
+
+// function blast() {
+//   const newAudio = new Audio("audio/Laser_shoot 68 (8).wav");
+//   newAudio.play();
+//   newAudio.volume = 0.1;
+// }
+
 class Projectile {
   constructor(x, y, color, velocity, width, height) {
     this.x = x;
@@ -32,6 +41,9 @@ addEventListener("mouseup", () => {
 });
 
 function handleEvent(event) {
+  pew.play();
+
+  pew.volume = 0.1;
   const angle2 = Math.atan2(
     event.clientY - player.position.y,
     event.clientX - player.position.x

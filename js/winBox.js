@@ -40,10 +40,12 @@ class WinBox {
         this.position.y + this.height >= player.position.y &&
         this.position.y <= player.position.y + player.height
       ) {
-        console.log("You win!");
+        music.pause();
+        getCrate.play();
         this.alpha = 1;
         winState = false;
         cargoCollide = false;
+        getCargo = 0;
         player.alpha = 0;
         cancelAnimationFrame(animationId);
         modalEl.style.display = "block";
@@ -55,7 +57,6 @@ class WinBox {
       //   this.position.y = player.position.y - 20;
       // }
     }
-    console.log(winState);
   }
 }
 

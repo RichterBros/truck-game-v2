@@ -3,7 +3,7 @@ const ctx = canvas.getContext("2d");
 
 canvas.width = innerWidth;
 canvas.height = 786;
-
+let currentTime = 0;
 const scoreEl = document.querySelector("#scoreEl");
 const startBameBtn = document.querySelector("#startGameBtn");
 const modalEl = document.querySelector("#modalEl");
@@ -11,8 +11,36 @@ const bigScoreEl = document.querySelector("#bigScoreEl");
 const points = document.querySelector("#points");
 console.log(scoreEl);
 
+let explode = new Audio();
+explode.src = "audio/Explosion 19.wav";
+
+let screech = new Audio();
+screech.src = "audio/screech.wav";
+
+// let engine = new Audio();
+// engine.src = "audio/engine.wav";
+
+var engine = new Howl({
+  src: ["audio/engine.wav"],
+  autoplay: false,
+  loop: true,
+  volume: 0.07,
+});
+
+let jump = new Audio();
+jump.src = "audio/Jump 79.wav";
+
+let music = new Audio();
+music.src = "audio/Slinger Swagger (loop).wav";
+
 const box2 = new Image();
 box2.src = "img/crate2.jpg";
+
+function blast() {
+  const newAudio = new Audio("audio/Explosion 19.wav");
+  newAudio.play();
+  newAudio.volume = 0.1;
+}
 
 function init() {
   player = new Player({ position: { x: 300, y: 0 } });
@@ -25,6 +53,9 @@ function init() {
   winState = false;
   player.alpha = 0;
   cargo.alpha = 1;
+  music.play();
+  music.loop = true;
+  music.volume = 0.08;
 }
 let flag = true;
 let gravity = 1;
@@ -141,14 +172,9 @@ class Player {
     this.position.y += this.velocity.y;
 
     this.position.x += this.velocity.x;
-    // this.collisionSquare.y -= 1;
-    // // this.collisionSquare.y += 1;
-    // if (this.collisionSquare.y <= -20) {
-    //   this.collisionSquare.y += 1;
-    // }
 
     if (flag) {
-      //do something, and eventually set flag to false
+      //cargo up & down movement
       this.collisionSquare.y -= 1;
       if (this.collisionSquare.y == -29) {
         flag = false;
@@ -262,6 +288,7 @@ function animate() {
       cancelAnimationFrame(animationId);
       modalEl.style.display = "block";
       bigScoreEl.innerHTML = score;
+      music.pause();
     }
 
     projectiles.forEach((projectile, projectileIndex) => {
@@ -291,6 +318,13 @@ function animate() {
             )
           );
         }
+        setTimeout(() => {
+          //explode.play();
+          // explode.play();
+          blast();
+          //sound.fade(1, 0, 100);
+          //explode.volume = 0.5;
+        }, 0);
 
         setTimeout(() => {
           enemies.splice(index, 1);
@@ -304,27 +338,38 @@ function animate() {
 //   console.log(event.clientX);
 //   console.log(event.clientY);
 // });
-
+let keyRight = 0;
+let keyLeft = 0;
+//console.log(engineNoise);
 addEventListener("keydown", ({ keyCode }) => {
   switch (keyCode) {
     case 65:
-      //console.log("left");
       keys.left.pressed = true;
 
+      keyLeft += 1;
+
+      if (keyLeft <= 1) {
+        engine.play();
+      }
       break;
 
     case 83:
       break;
 
     case 68:
-      //console.log("right");
       keys.right.pressed = true;
 
+      keyRight += 1;
+
+      if (keyRight <= 1) {
+        engine.play();
+      }
       break;
 
     case 87:
       keys.up.pressed = true;
-
+      jump.play();
+      jump.volume = 0.05;
       break;
   }
 });
@@ -333,6 +378,8 @@ addEventListener("keyup", ({ keyCode }) => {
   switch (keyCode) {
     case 65:
       keys.left.pressed = false;
+      keyLeft = 0;
+      engine.pause();
       break;
 
     case 83:
@@ -340,6 +387,9 @@ addEventListener("keyup", ({ keyCode }) => {
 
     case 68:
       keys.right.pressed = false;
+
+      keyRight = 0;
+      engine.pause();
       break;
 
     case 87:
